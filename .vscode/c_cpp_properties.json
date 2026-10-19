@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "name": "Pintos",
+      "includePath": [
+        "${workspaceFolder}/src",
+        "${workspaceFolder}/src/lib",
+        "${workspaceFolder}/src/lib/kernel",
+        "${workspaceFolder}/src/lib/user",
+        "${workspaceFolder}/src/userprog",
+        "${workspaceFolder}/src/threads",
+        "${workspaceFolder}/src/devices",
+        "${workspaceFolder}/src/filesys"
+      ],
+      "defines": [
+        "USERPROG",
+        "FILESYS"
+      ],
+      "cStandard": "gnu99",
+      "intelliSenseMode": "linux-gcc-x86"
+    }
+  ],
+  "version": 4
+}

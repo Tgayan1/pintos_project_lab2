@@ -5,6 +5,14 @@
 #include <list.h>
 #include <stdint.h>
 
+
+// File descriptor struct for managing open files in user programs
+struct file_descriptor {
+  int fd;
+  struct file *file;
+  struct list_elem elem;
+};
+
 /** States in a thread's life cycle. */
 enum thread_status
   {
@@ -95,7 +103,15 @@ struct thread
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
-    uint32_t *pagedir;                  /**< Page directory. */
+    uint32_t *pagedir;              /**< Page directory. */
+    int exit_status;                /**< Exit Status for User Programs */  
+    struct list children;            /* list of child_status */
+    struct child_status *my_status;  /* shared record owned by parent+me */
+    
+    // File descriptor list for managing open files 
+    struct list open_files;
+    int next_fd;
+    struct file *executable;  /**< The executable file associated with the thread. */
 #endif
 
     /* Owned by thread.c. */
@@ -124,6 +140,7 @@ tid_t thread_tid (void);
 const char *thread_name (void);
 
 void thread_exit (void) NO_RETURN;
+void thread_exit_with_status(int status) NO_RETURN;
 void thread_yield (void);
 
 /** Performs some operation on thread t, given auxiliary data AUX. */

@@ -296,6 +296,13 @@ thread_exit (void)
   NOT_REACHED ();
 }
 
+void thread_exit_with_status(int status){
+  #ifdef USERPROG
+  thread_current()->exit_status = status;
+  #endif
+  thread_exit();
+}
+
 /** Yields the CPU.  The current thread is not put to sleep and
    may be scheduled again immediately at the scheduler's whim. */
 void
@@ -463,6 +470,17 @@ init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
+
+  #ifdef USERPROG
+  t->exit_status = 0;
+  list_init (&t->children);
+  t->my_status = NULL;
+
+  // Initialize the open file list and next file descriptor
+  list_init (&t->open_files);
+  t->next_fd = 2;
+  t->executable = NULL;
+  #endif
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);

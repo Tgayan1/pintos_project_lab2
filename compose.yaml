@@ -1,0 +1,10 @@
+services:
+  pintos:
+    image: pkuflyingpig/pintos
+    container_name: pintos
+    stdin_open: true
+    tty: true
+    volumes:
+      - type: bind
+        source: C:\Users\gthar\OneDrive\Documents\Uni_Tutes\Projects\OS\pintos
+        target: /home/PKUOS/pintos
